@@ -32,13 +32,58 @@ const dishes = [
   ['doces','Leves','Frutas da estação','Uma opção de fruta para fechar o almoço.']
 ];
 const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-let active='buffet', filter='all';
-for(const [tab,group,name,description] of dishes){const item=document.createElement('article');item.className='dish';item.dataset.group=group;item.dataset.search=normalize(name+' '+description+' '+group);const tag=document.createElement('span');tag.className='dish-group';tag.textContent=group;const title=document.createElement('h3');title.textContent=name;const copy=document.createElement('p');copy.textContent=description;item.append(tag,title,copy);if(['bebidas','doces'].includes(tab)){const price=document.createElement('span');price.className='item-price';price.textContent='Consulte o valor';item.append(price);}document.querySelector(`[data-list="${tab}"]`).append(item);}
-function applyFilter(){const query=normalize(document.getElementById('search').value.trim());let count=0;document.querySelectorAll(`#panel-${active} .dish`).forEach(item=>{const visible=(!query||item.dataset.search.includes(query))&&(active!=='buffet'||filter==='all'||item.dataset.group===filter);item.hidden=!visible;if(visible)count++;});document.getElementById('result-count').textContent=`${count} opções`;document.getElementById('empty').hidden=count>0||active==='casa';document.getElementById('clear-search').hidden=!query;scheduleScatter();}
+let active='buffet';
+const selections={buffet:'Proteínas',bebidas:'Sucos',doces:'Doces'};
+let subtype='Todos';
+const buffetGroups=[
+  ['Proteínas','Bovinas'],['Proteínas','Aves'],['Proteínas','Bovinas'],
+  ['Proteínas','Suínas'],['Proteínas','Aves'],['Proteínas','Peixes'],
+  ['Bases','Arrozes'],['Bases','Feijões'],['Bases','Feijões'],
+  ['Bases','Arrozes'],['Bases','Raízes'],['Acompanhamentos','Farofas'],
+  ['Guarnições','Verduras'],['Guarnições','Legumes']
+];
+dishes.forEach(([originalTab,originalGroup,name,description],index)=>{
+  const tab=originalTab==='saladas'?'buffet':originalTab;
+  let group=originalGroup,kind='';
+  if(originalTab==='buffet') [group,kind]=buffetGroups[index];
+  if(originalTab==='saladas') group='Saladas';
+  if(originalTab==='bebidas') group=originalGroup==='Sucos'?'Sucos':originalGroup==='Geladas'?'Águas e refrigerantes':'Café';
+  if(originalTab==='doces') group=originalGroup==='Leves'?'Frutas':'Doces';
+  const item=document.createElement('article');item.className='dish';
+  item.dataset.group=group;item.dataset.kind=kind;
+  item.dataset.search=normalize(name+' '+description+' '+group+' '+kind);
+  const tag=document.createElement('span');tag.className='dish-group';tag.textContent=kind||group;
+  const title=document.createElement('h3');title.textContent=name;
+  const copy=document.createElement('p');copy.textContent=description;item.append(tag,title,copy);
+  if(['bebidas','doces'].includes(tab)){const price=document.createElement('span');price.className='item-price';price.textContent='Consulte o valor';item.append(price);}
+  document.querySelector(`[data-list="${tab}"]`).append(item);
+});
+const categories={buffet:['Proteínas','Bases','Guarnições','Saladas','Acompanhamentos'],bebidas:['Sucos','Águas e refrigerantes','Café'],doces:['Doces','Frutas']};
+for(const [tab,labels] of Object.entries(categories)){
+  let group=document.querySelector(`[data-categories="${tab}"]`);
+  if(!group){group=document.createElement('div');group.className='filter-group categories';group.setAttribute('role','group');group.setAttribute('aria-label',tab==='bebidas'?'Categorias de bebidas':'Categorias de sobremesas');document.querySelector(`[data-list="${tab}"]`).before(group);}
+  labels.forEach(label=>{const button=document.createElement('button');button.textContent=label;button.type='button';button.setAttribute('aria-pressed',String(selections[tab]===label));button.addEventListener('click',()=>{selections[tab]=label;subtype='Todos';document.getElementById('search').value='';group.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));renderSubtypes();applyFilter();});group.append(button);});
+}
+function renderSubtypes(){
+  const container=document.getElementById('buffet-subcategories');container.replaceChildren();
+  const kinds=selections.buffet==='Proteínas'?['Bovinas','Aves','Suínas','Peixes']:selections.buffet==='Bases'?['Arrozes','Feijões','Raízes']:[];
+  container.hidden=!kinds.length;
+  if(kinds.length) ['Todos',...kinds].forEach(kind=>{const button=document.createElement('button');button.textContent=kind;button.type='button';button.setAttribute('aria-pressed',String(kind===subtype));button.addEventListener('click',()=>{subtype=kind;document.getElementById('search').value='';renderSubtypes();applyFilter();});container.append(button);});
+}
+function applyFilter(){
+  const query=normalize(document.getElementById('search').value.trim());let count=0;
+  document.querySelectorAll(`#panel-${active} .dish`).forEach(item=>{
+    const visible=query?item.dataset.search.includes(query):item.dataset.group===selections[active]&&(active!=='buffet'||subtype==='Todos'||item.dataset.kind===subtype);
+    item.hidden=!visible;if(visible)count++;
+  });
+  document.getElementById('selection-label').textContent=query?'Resultados no self-service':selections.buffet+(subtype!=='Todos'?' · '+subtype:'');
+  document.querySelectorAll(`#panel-${active} .filter-group`).forEach(group=>{group.style.display=query?'none':'';});
+  document.getElementById('result-count').textContent=`${count} ${count===1?'opção':'opções'}`;
+  document.getElementById('empty').hidden=count>0||active==='casa';document.getElementById('clear-search').hidden=!query;scheduleScatter();
+}
 function selectTab(tab,scroll=false){active=tab;document.querySelectorAll('[data-tab]').forEach(button=>{const selected=button.dataset.tab===active;button.setAttribute('aria-selected',selected);button.tabIndex=selected?0:-1;});document.querySelectorAll('.menu-panel').forEach(panel=>panel.hidden=panel.id!==`panel-${active}`);document.querySelector('.search-row').hidden=active==='casa';applyFilter();if(scroll)document.getElementById('menu').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});}
 document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>selectTab(button.dataset.tab,true)));
 document.querySelector('[role=tablist]').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const tabs=[...document.querySelectorAll('[data-tab]')];const index=tabs.indexOf(document.activeElement);const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();selectTab(tabs[next].dataset.tab);tabs[next].scrollIntoView({block:'nearest',inline:'nearest'});});
-document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));applyFilter();}));
 document.getElementById('search').addEventListener('input',applyFilter);document.getElementById('clear-search').addEventListener('click',()=>{document.getElementById('search').value='';applyFilter();document.getElementById('search').focus();});
 document.getElementById('copy-address').addEventListener('click',async()=>{const status=document.getElementById('copy-status');try{await navigator.clipboard.writeText('Rua do Apolo, 107');status.textContent='Endereço copiado.';}catch{status.textContent='Rua do Apolo, 107 — selecione o endereço para copiar.';}});
 // Irregular placements are generated once per page, not a repeating background tile.
@@ -65,4 +110,4 @@ function scatter(){
     layer.append(el);
   }
 }
-window.addEventListener('resize',scheduleScatter);window.addEventListener('load',scheduleScatter);applyFilter();
+window.addEventListener('resize',scheduleScatter);window.addEventListener('load',scheduleScatter);renderSubtypes();applyFilter();

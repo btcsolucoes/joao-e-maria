@@ -4,4 +4,32 @@
 .hero{width:100%;height:auto;min-height:0;padding:0;justify-content:center;background:var(--cream);aspect-ratio:2/1}
 .hero-logo{display:block;width:100%;height:auto;max-width:none;object-fit:contain;aspect-ratio:2/1;mix-blend-mode:normal}
 @media(max-width:650px){.hero{height:auto;aspect-ratio:2/1;padding:0}.hero-logo{width:100%;max-width:none;height:auto;min-height:0}}
+/* Stronger brand accents, with the approved hero left unchanged. */
+:root{--gold:#bc792b;--line:#d7b57b;--muted:#715132}
+.menu-nav{background:#432b1e;border-color:#432b1e;box-shadow:0 5px 16px #432b1e20}
+.nav-inner button{color:#f9e8c9}
+.nav-inner button[aria-selected=true]{background:#e4ad54;color:#352012}
+.nav-inner button:hover:not([aria-selected=true]){background:#65422a;color:#fff}
+.menu-intro{position:relative;border-bottom:3px solid #c48a3e}
+.menu-intro h2{color:#89501f}
+.small-label{color:#8c541e}
+.price{background:#e7b561;border:0;border-left:4px solid #975b22;padding:20px 24px;color:#392417}
+.price strong{color:#432b1e}
+.section-heading{border-left:5px solid #c48a3e;padding-left:16px}
+.section-note{background:#efd3a0;color:#583319;padding:6px 10px;border-radius:4px}
+.categories{gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.categories button{background:#f4deb5;border-color:#d5ad6d;color:#5a361b;font-size:14px;min-height:44px;padding:10px 16px}
+.categories button[aria-pressed=true]{background:#a66525;border-color:#a66525;color:#fff}
+.subcategories{margin-bottom:18px;gap:8px}
+.subcategories button{background:transparent;border-color:transparent;color:#6c4827;font-size:13px}
+.subcategories button[aria-pressed=true]{background:#efd3a0;border-color:#c48a3e;color:#432b1e}
+.selection-label{font:21px/1.3 var(--display);color:#89501f;margin:24px 0 12px}
+.dish{border-top-color:#d7b57b}
+.dish-group{color:#986024;font-weight:800}
+.search{border-color:#c9934c}
+.closing{border-top:3px solid #c48a3e}
+.closing p{color:#89501f}
+footer{background:#432b1e;color:#fff0d5;border-top:5px solid #dca64f}
+.scattered{opacity:.075}
+@media(max-width:650px){.nav-inner{padding:8px;gap:3px}.nav-inner button{min-width:0;font-size:11px;padding:8px 5px;flex:1}.price{padding:14px 12px;border-left-width:3px}.price strong{font-size:32px}.menu-intro{gap:14px}.categories{gap:7px}.categories button{font-size:12px;padding:9px 12px}.subcategories button{font-size:12px;padding:8px 10px}.selection-label{font-size:20px}.scattered{opacity:.065}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
