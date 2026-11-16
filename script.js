@@ -110,4 +110,7 @@ function scatter(){
     layer.append(el);
   }
 }
+const backTop=document.querySelector('.back-top');
+function updateBackTop(){backTop.classList.toggle('is-visible',window.scrollY>window.innerHeight);}
+window.addEventListener('scroll',updateBackTop,{passive:true});updateBackTop();
 window.addEventListener('resize',scheduleScatter);window.addEventListener('load',scheduleScatter);renderSubtypes();applyFilter();
