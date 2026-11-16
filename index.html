@@ -7,18 +7,14 @@
   <meta name="description" content="Restaurante João e Maria. Self-service por quilo na Rua do Apolo, 107. Das 11h às 14h30.">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1"><script src="script.js?v=1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=2"><script src="script.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip" href="#menu">Ir para o cardápio</a>
-  <div class="preview-note">Prévia do cardápio <span>·</span> Itens e valor por quilo sujeitos à aprovação</div>
   <div id="characters" aria-hidden="true"></div>
   <header class="hero" id="inicio">
-    <p class="hero-label">Uma pausa para comer bem.</p>
     <img class="hero-logo" src="assets/logo-original.jpg" alt="Restaurante João e Maria — Sabor que acolhe, qualidade que fica" width="1024" height="1024" fetchpriority="high">
     <h1 class="sr-only">Restaurante João e Maria</h1>
-    <div class="hero-details"><span>Self-service por quilo</span><i aria-hidden="true"></i><span>11h às 14h30</span></div>
-    <a class="hero-link" href="#menu">O almoço está por aqui <img src="assets/icons/chevron-down.svg" alt="" width="18" height="18"></a>
   </header>
   <nav class="menu-nav" aria-label="Cardápio"><div class="nav-inner" role="tablist" aria-label="Categorias">
     <button id="tab-buffet" role="tab" aria-selected="true" aria-controls="panel-buffet" data-tab="buffet">Buffet</button>
@@ -28,8 +24,7 @@
     <button id="tab-casa" role="tab" aria-selected="false" aria-controls="panel-casa" tabindex="-1" data-tab="casa">A casa</button>
   </div></nav>
   <main id="menu" tabindex="-1">
-    <div class="menu-intro"><div><p class="small-label">À mesa com João e Maria</p><h2>Seu almoço,<br>do seu jeito.</h2><p>Um pouco de cada sabor.<br>Um prato com a sua vontade.</p></div><div class="price"><span>Self-service</span><strong>R$ 35<span>,00</span></strong><span>por quilo</span><small>Valor provisório</small></div></div>
-    <div class="availability"><img src="assets/icons/utensils.svg" alt="" width="18" height="18"><p>Seleção sugerida para o buffet. Confirme os pratos disponíveis e os valores com a equipe.</p></div>
+    <div class="menu-intro"><div><p class="small-label">À mesa com João e Maria</p><h2>Seu almoço,<br>do seu jeito.</h2><p>Um pouco de cada sabor.<br>Um prato com a sua vontade.</p></div><div class="price"><span>Self-service</span><strong>R$ 35<span>,00</span></strong><span>por quilo</span></div></div>
     <div class="search-row"><label class="search"><img src="assets/icons/search.svg" alt="" width="20" height="20"><input id="search" type="search" placeholder="O que você procura?" aria-label="Buscar pratos no cardápio" autocomplete="off"><button id="clear-search" aria-label="Limpar busca" title="Limpar busca" hidden><img src="assets/icons/x.svg" alt="" width="18" height="18"></button></label><span id="result-count" aria-live="polite"></span></div>
     <section class="menu-panel" id="panel-buffet" role="tabpanel" aria-labelledby="tab-buffet"><div class="section-heading"><div><p class="small-label">Comida que acolhe</p><h2>Buffet da casa</h2></div><span class="section-note">Servido no peso</span></div><div class="filter-group" aria-label="Filtrar buffet"><button data-filter="all" aria-pressed="true">Tudo</button><button data-filter="Carnes e preparos" aria-pressed="false">Carnes e preparos</button><button data-filter="Acompanhamentos" aria-pressed="false">Acompanhamentos</button></div><div class="dish-list" data-list="buffet"></div></section>
     <section class="menu-panel" id="panel-saladas" role="tabpanel" aria-labelledby="tab-saladas" hidden><div class="section-heading"><div><p class="small-label">Cor no seu prato</p><h2>Saladas & frescor</h2></div><span class="section-note">Servidas no peso</span></div><div class="dish-list" data-list="saladas"></div></section>

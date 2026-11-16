@@ -47,7 +47,7 @@ let frame;
 function scheduleScatter(){cancelAnimationFrame(frame);frame=requestAnimationFrame(scatter);}
 function scatter(){
   const layer=document.getElementById('characters');
-  const start=document.querySelector('.hero').offsetHeight+document.querySelector('.preview-note').offsetHeight+100;
+  const start=document.querySelector('.hero').offsetHeight+100;
   const height=document.body.scrollHeight;
   const width=document.documentElement.clientWidth;
   const mobile=width<650;
