@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="menu-20261117.css"><script src="menu-20261117.js" defer></script>
   <style>
     @media(max-width:650px){
-      .hero{aspect-ratio:2/1!important;min-height:0!important;padding:0!important;overflow:hidden}
-      .hero-logo{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover;transform:scale(1.06)}
+      .hero{aspect-ratio:auto!important;height:calc(100svh - 24px)!important;min-height:0!important;padding:0!important;overflow:hidden;background:#f9e6c9}
+      .hero-logo{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none!important;object-fit:contain;transform:none}
       .menu-intro{display:block;padding:12px 0;border-bottom:0}
       .menu-intro>div:first-child{display:none}
       .price{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;padding:10px 12px;border:0;background:#efd3a0}
@@ -27,7 +27,7 @@
   <a class="skip" href="#menu">Ir para o cardápio</a>
   <div id="characters" aria-hidden="true"></div>
   <header class="hero" id="inicio">
-    <img class="hero-logo" src="assets/hero-retangular.png" alt="Restaurante João e Maria — Sabor que acolhe, qualidade que fica" width="1774" height="887" fetchpriority="high">
+    <picture><source media="(max-width:650px)" srcset="assets/hero-mobile.png"><img class="hero-logo" src="assets/hero-retangular.png" alt="Restaurante João e Maria — Sabor que acolhe, qualidade que fica" width="1774" height="887" fetchpriority="high"></picture>
     <h1 class="sr-only">Restaurante João e Maria</h1>
   </header>
   <nav class="menu-nav" aria-label="Cardápio"><div class="nav-inner" role="tablist" aria-label="Categorias">
